@@ -1,0 +1,32 @@
+# Compute distance between atoms 1 and 10.
+# Atoms are ordered as in the trajectory files and their numbering starts from 1.
+# The distance is called "d" for future reference.
+UNITS LENGTH=A TIME=fs ENERGY=kcal/mol
+RESTART
+d1: DISTANCE ATOMS=2747,51 #nuc
+d2: DISTANCE ATOMS=51,23 #ctolinko
+d3: DISTANCE ATOMS=23,3437 #linkoproton
+d4: DISTANCE ATOMS=3437,3436 #GluH
+# Print "d" on a file named "COLVAR1" every 10 steps.
+uwall_1: UPPER_WALLS ARG=d1 AT=3.2 KAPPA=1250
+uwall_2: UPPER_WALLS ARG=d2 AT=3.5 KAPPA=1250
+uwall_3: UPPER_WALLS ARG=d3 AT=2.5 KAPPA=1250
+uwall_4: UPPER_WALLS ARG=d4 AT=2.7 KAPPA=1250
+f1: COMBINE ARG=d1,d2,d3,d4 COEFFICIENTS=-1,1,-1,1 POWERS=1,1,1,1 PERIODIC=NO
+metad: METAD ...
+   ARG=f1 
+   SIGMA=0.3
+   HEIGHT=0.5
+   PACE=50 
+   GRID_MIN=-4.0
+   GRID_MAX=4.0
+   GRID_BIN=200
+   FILE=HILLS
+   CALC_RCT
+...
+PRINT ARG=f1,d1,d2,d3,d4,metad.bias STRIDE=10 FILE=colvar.out
+#LT1 o4 7070
+#GLU215 HE2 3366
+#GlU215 OE2 3365
+#LT1 C13 7098
+#ASP171 OD1 2676
