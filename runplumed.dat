@@ -25,8 +25,3 @@ metad: METAD ...
    CALC_RCT
 ...
 PRINT ARG=f1,d1,d2,d3,d4,metad.bias STRIDE=10 FILE=colvar.out
-#LT1 o4 7070
-#GLU215 HE2 3366
-#GlU215 OE2 3365
-#LT1 C13 7098
-#ASP171 OD1 2676
